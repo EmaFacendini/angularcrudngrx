@@ -25,7 +25,9 @@ import { EmployeeService } from '../../service/employee.service';
 })
 export class AddEmployeeComponent {
 
-  constructor(private service:EmployeeService,private ref:MatDialogRef<AddEmployeeComponent>) { }
+  constructor(private service: EmployeeService, private ref: MatDialogRef<AddEmployeeComponent>) {
+    console.log('EmployeeService:', this.service); // Verifica que el servicio esté inyectado
+  }
 
   title = 'Add Employee'
   empForm = new FormGroup({
@@ -36,22 +38,31 @@ export class AddEmployeeComponent {
     salary:new FormControl(0,Validators.required),
   });
 
-  SaveEmployee(){
-    if(this.empForm.valid){
-      let _data:Employee={
+  SaveEmployee() {
+    console.log('Form Value:', this.empForm.value);
+    if (this.empForm.valid) {
+      let _data: Employee = {
         id: this.empForm.value.id as number,
         name: this.empForm.value.name as string,
         doj: new Date(this.empForm.value.doj as Date),
         role: this.empForm.value.role as string,
-        designation: '', // Add a default value or get it from the form
         salary: this.empForm.value.salary as number
+      };
+  
+      if (this.service) {
+        this.service.Create(_data).subscribe(
+          item => {
+            console.log(item);
+            alert('Employee added successfully');
+            this.closepopup();
+          },
+          error => {
+            console.error('Error creating employee', error);
+          }
+        );
+      } else {
+        console.error('EmployeeService is not initialized');
       }
-
-      this.service.Create(_data).subscribe(item=>{
-        console.log(item);
-        alert('Employee added successfully');
-        this.closepopup();
-      });
     }
   }
 

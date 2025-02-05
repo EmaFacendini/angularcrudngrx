@@ -9,25 +9,25 @@ export class EmployeeService {
 
   apiUrl = 'http://localhost:3000/employees';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  GetAll(){
+  GetAll() {
     return this.http.get<Employee[]>(this.apiUrl);
   }
 
-  Get(empid:number){
-    return this.http.get<Employee>(this.apiUrl+'/'+empid);
+  Get(empId: number) {
+    return this.http.get<Employee>(this.apiUrl + '/' + empId);
   }
 
-  Create(data: Employee){
-    return this.http.post(this.apiUrl,data);
+  Create(data: Employee) {
+    return this.http.post(this.apiUrl, data);
   }
 
-  Update(data: Employee){
-    return this.http.put(this.apiUrl+'/'+data.id,data);
+  Update(data: Employee) {
+    return this.http.put(this.apiUrl + '/' + data.id, data);
   }
 
-  Delete(empid:number){
-    return this.http.delete(this.apiUrl+'/'+empid);
+  Delete(empId: number) {
+    return this.http.delete(this.apiUrl + '/' + empId);
   }
 }
